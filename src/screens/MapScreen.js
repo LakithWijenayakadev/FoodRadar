@@ -287,7 +287,7 @@ const MapScreen = () => {
     // zoom to marker
     mapRef.current?.animateToRegion(
       {
-        latitude: restaurant.lat - 0.002,
+        latitude: restaurant.lat - 0.0002,
         longitude: restaurant.lng,
         latitudeDelta: 0.005,
         longitudeDelta: 0.005,
@@ -438,7 +438,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 10,
     elevation: 10,
-    zIndex: 150,
+    // zIndex: 150,
   },
   userLocationRing: {
     width: 34,
