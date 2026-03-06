@@ -158,7 +158,7 @@ const Header = ({
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 54 : 20,
+    top: Platform.OS === 'ios' ? 54 : 35,
     // left: 16,
     // right: 16,
     backgroundColor: Colors.card,
