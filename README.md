@@ -1,6 +1,10 @@
 # FoodRadar
 React Native app that shows a list of nearby restaurants based on the user’s location. 
 =======
+
+
+<img width="144" height="144" alt="logo" src="https://github.com/user-attachments/assets/4c89873a-4db8-4fba-abe9-b751347e1db4" />
+
 ## Restaurant App (FoodRadar)
 
 This is a simple React Native mobile application (Android/IOS) that shows nearby restaurants based on the user's current location. The app uses Google Maps and location APIs to fetch and display real restaurant data.
@@ -40,6 +44,8 @@ npm start
 npm run android
 
 ## Screenshots
+
+
 
 ![Screenshot_20260306_195158_Food Radar](https://github.com/user-attachments/assets/73eadd8e-f2eb-4604-8814-e09794ed837d)
 ![Screenshot_20260306_195209_Food Radar](https://github.com/user-attachments/assets/536d4012-539c-4062-9369-7ff5ad35db7d)
