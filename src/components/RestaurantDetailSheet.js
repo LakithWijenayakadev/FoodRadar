@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {
   View,
   Text,
@@ -7,13 +7,26 @@ import {
   TouchableOpacity,
   Linking,
   Platform,
+  Modal,
+  ScrollView,
 } from 'react-native';
 import BottomSheet, {BottomSheetView} from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Colors from '../constants/colors';
 
+const MENU_ITEMS = [
+  { id: '1', name: 'Classic Cheeseburger', description: 'Angus beef, cheddar, lettuce, tomato, special sauce', price: '$12.99', icon: 'lunch-dining' },
+  { id: '2', name: 'Margherita Pizza', description: 'Fresh mozzarella, tomato sauce, basil', price: '$14.50', icon: 'local-pizza' },
+  { id: '3', name: 'Grilled Salmon', description: 'Wild-caught salmon with roasted asparagus', price: '$18.00', icon: 'set-meal' },
+  { id: '4', name: 'Spicy Pasta', description: 'Penne pasta with spicy tomato cream sauce', price: '$13.25', icon: 'restaurant' },
+  { id: '5', name: 'Caesar Salad', description: 'Crisp romaine, parmesan, croutons, caesar dressing', price: '$9.99', icon: 'eco' },
+];
+
 const RestaurantDetailSheet = ({restaurant, sheetRef}) => {
-  const snapPoints = useMemo(() => ['45%', '80%'], []);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+
+  const openMenu = () => setIsMenuVisible(true);
+  const closeMenu = () => setIsMenuVisible(false);
 
   const handleDirection = useCallback(() => {
     if (!restaurant) return;
@@ -32,7 +45,7 @@ const RestaurantDetailSheet = ({restaurant, sheetRef}) => {
     <BottomSheet
       ref={sheetRef}
       index={-1}
-      snapPoints={snapPoints}
+      enableDynamicSizing={true}
       enablePanDownToClose
       backgroundStyle={styles.sheetBackground}
       handleIndicatorStyle={styles.handleIndicator}>
@@ -87,7 +100,8 @@ const RestaurantDetailSheet = ({restaurant, sheetRef}) => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   activeOpacity={0.85}
-                  style={styles.buttonFilled}>
+                  style={styles.buttonFilled}
+                  onPress={openMenu}>
                   <Icon name="menu-book" size={18} color={Colors.white} />
                   <Text style={styles.buttonFilledText}>Menu</Text>
                 </TouchableOpacity>
@@ -95,6 +109,39 @@ const RestaurantDetailSheet = ({restaurant, sheetRef}) => {
             </View>
           </>
         ) : null}
+
+        {/* Menu Modal Overlay */}
+        <Modal
+          visible={isMenuVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={closeMenu}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Food Menu</Text>
+                <TouchableOpacity onPress={closeMenu} style={styles.closeButton}>
+                  <Icon name="close" size={20} color={Colors.black} />
+                </TouchableOpacity>
+              </View>
+              <ScrollView style={styles.menuList} showsVerticalScrollIndicator={false}>
+                {MENU_ITEMS.map((item) => (
+                  <View key={item.id} style={styles.menuItem}>
+                    <View style={styles.menuItemIconBg}>
+                      <Icon name={item.icon} size={24} color={Colors.purple} />
+                    </View>
+                    <View style={styles.menuItemDetails}>
+                      <Text style={styles.menuItemName}>{item.name}</Text>
+                      <Text style={styles.menuItemDesc}>{item.description}</Text>
+                    </View>
+                    <Text style={styles.menuItemPrice}>{item.price}</Text>
+                  </View>
+                ))}
+              </ScrollView>
+            </View>
+          </View>
+        </Modal>
+
       </BottomSheetView>
     </BottomSheet>
   );
@@ -110,7 +157,7 @@ const styles = StyleSheet.create({
     width: 40,
   },
   container: {
-    flex: 1,
+    paddingBottom: Platform.OS === 'ios' ? 30 : 20,
   },
   imageContainer: {
     marginHorizontal: 16,
@@ -241,6 +288,79 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     color: Colors.white,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+  },
+  modalContent: {
+    backgroundColor: Colors.white,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    maxHeight: '85%',
+    paddingBottom: Platform.OS === 'ios' ? 40 : 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F3F4F6',
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: '800',
+    color: Colors.black,
+    letterSpacing: -0.3,
+  },
+  closeButton: {
+    padding: 8,
+    backgroundColor: '#F3F4F6',
+    borderRadius: 20,
+  },
+  menuList: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F9FAFB',
+  },
+  menuItemIconBg: {
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: 'rgba(124, 58, 237, 0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  menuItemDetails: {
+    flex: 1,
+    marginRight: 12,
+  },
+  menuItemName: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: Colors.black,
+    marginBottom: 6,
+    letterSpacing: -0.2,
+  },
+  menuItemDesc: {
+    fontSize: 13,
+    color: Colors.greyDark,
+    lineHeight: 18,
+  },
+  menuItemPrice: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: Colors.purple,
   },
 });
 
