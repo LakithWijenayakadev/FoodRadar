@@ -1,0 +1,35 @@
+buildscript {
+    ext {
+        buildToolsVersion = "36.0.0"
+        minSdkVersion = 24
+        compileSdkVersion = 36
+        targetSdkVersion = 36
+        ndkVersion = "27.1.12297006"
+        kotlinVersion = "2.1.20"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+    }
+}
+
+apply plugin: "com.facebook.react.rootproject"
+
+// Force all Google Play Services dependencies to the same version
+// to fix IncompatibleClassChangeError from react-native-geolocation-service
+subprojects {
+    configurations.all {
+        resolutionStrategy {
+            force "com.google.android.gms:play-services-location:21.3.0"
+            force "com.google.android.gms:play-services-base:18.5.0"
+            force "com.google.android.gms:play-services-basement:18.5.0"
+            force "com.google.android.gms:play-services-tasks:18.2.0"
+        }
+    }
+}
+
