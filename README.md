@@ -43,9 +43,10 @@ npm start
 
 npm run android
 
+## APK
+https://drive.google.com/file/d/12ey2hQERFRUGaxvawOtHgSRcJlapme7s/view?usp=sharing
+
 ## Screenshots
-
-
 
 ![Screenshot_20260306_195158_Food Radar](https://github.com/user-attachments/assets/73eadd8e-f2eb-4604-8814-e09794ed837d)
 ![Screenshot_20260306_195209_Food Radar](https://github.com/user-attachments/assets/536d4012-539c-4062-9369-7ff5ad35db7d)
