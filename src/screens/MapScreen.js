@@ -16,7 +16,6 @@ import Geolocation from 'react-native-geolocation-service';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import mapStyle from '../constants/mapStyle.json';
-import fallbackRestaurants from '../data/restaurants';
 import {sortRestaurants} from '../utils/sortRestaurants';
 import {
   fetchNearbyRestaurants,
@@ -31,6 +30,7 @@ const GOOGLE_API_KEY = 'AIzaSyAB2dA6akyOVPMCMmfbP-qXf5h1X2hyhm0';
 import Header from '../components/Header';
 import RestaurantMarker from '../components/RestaurantMarker';
 import RestaurantDetailSheet from '../components/RestaurantDetailSheet';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // default start pos
 const INITIAL_REGION = {
@@ -119,12 +119,10 @@ const MapScreen = () => {
           ...r,
           distance: haversineDistance(uLat, uLng, r.lat, r.lng),
         }));
-        setAllRestaurants(
-          withDistance.length > 0 ? withDistance : fallbackRestaurants,
-        );
+        setAllRestaurants(withDistance);
       } catch (err) {
         console.warn('Places API error:', err.message);
-        setAllRestaurants(fallbackRestaurants);
+        setAllRestaurants([]);
       } finally {
         setLoading(false);
       }
@@ -305,6 +303,7 @@ const MapScreen = () => {
   }, []);
 
   return (
+    <SafeAreaView style={{flex: 1}}>
     <View style={StyleSheet.absoluteFillObject}>
       {/* Map */}
       <MapView
@@ -395,6 +394,7 @@ const MapScreen = () => {
         sheetRef={sheetRef}
       />
     </View>
+    </SafeAreaView>
   );
 };
 
