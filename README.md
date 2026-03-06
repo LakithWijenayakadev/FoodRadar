@@ -11,7 +11,7 @@ This is a simple React Native mobile application (Android/IOS) that shows nearby
 * Displays nearby restaurants on the map
 * The user can search for restaurants and get directions by clicking the direction button
 * Shows a list of restaurants sorted by distance or rating
-* Simple restaurant card UI with menu and direction button to get directions with maps or ride application (Uber)
+* Simple restaurant card UI with menu, distance, ratings, and direction button to get directions with maps or ride application (Uber)
 * Automatically search nearby locations by default
 
 ## Tech Stack
